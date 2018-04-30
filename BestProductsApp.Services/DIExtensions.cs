@@ -1,4 +1,4 @@
-﻿using BestProductsApp.Services.Models;
+﻿using BestProductsApp.Models.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

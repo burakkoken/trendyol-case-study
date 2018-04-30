@@ -28,33 +28,6 @@ namespace BestProductsApp.API.Controllers
         {
             try
             {
-                var products = new List<Product>();
-                for(int i = model.Start; i < model.Start + model.Length; i++)
-                {
-                    products.Add(_cacheService.Get<Product>($"product-{i}"));
-                }
-                
-                return Json(new FilterModel()
-                {
-                    Draw = model.Draw,
-                    RecordFiltered = products.Count,
-                    RecordsTotal = _db.Products.Count(),
-                    Data = products
-                });
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        [Route("list-cache")]
-        [HttpPost]
-        public IActionResult ListInCache([FromBody]FilterModel model)
-        {
-            try
-            {
                 var data = _db.Products.Skip(model.Start).Take(model.Length).ToList();
 
                 return Json(new FilterModel()
@@ -70,6 +43,34 @@ namespace BestProductsApp.API.Controllers
                 throw;
             }
 
+        }
+        
+        [Route("list-cache")]
+        [HttpPost]
+        public IActionResult ListInCache([FromBody]FilterModel model)
+        {
+            try
+            {
+                var products = new List<Product>();
+                var keys = _cacheService.GetAllKeys("product").OrderBy(x => x).Skip(model.Start).Take(model.Length).ToList();
+
+                foreach (var key in keys)
+                {
+                    products.Add(_cacheService.Get<Product>(key));
+                }
+
+                return Json(new FilterModel()
+                {
+                    Draw = model.Draw,
+                    RecordFiltered = products.Count,
+                    RecordsTotal = _db.Products.Count(),
+                    Data = products
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [Route("fill")]

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,6 +38,20 @@ namespace BestProductsApp.Services.Cache
             return lazyConnection.Value.GetDatabase();
         }
 
+        public List<string> GetAllKeys(string search)
+        {
+            List<string> keys = new List<string>();
+            foreach (var endpoint in Database.Multiplexer.GetEndPoints())
+            {
+                var server = Database.Multiplexer.GetServer(endpoint);
+
+                if (string.IsNullOrEmpty(search))
+                    keys.AddRange(server.Keys().Select(x => x.ToString()).ToList());
+                else
+                    keys.AddRange(server.Keys().Select(x => x.ToString()).Where(x => x.Contains(search)).ToList());
+            }
+            return keys;
+        }
 
         public bool Set<T>(string key, T value)
         {
@@ -102,7 +117,7 @@ namespace BestProductsApp.Services.Cache
             {
                 try
                 {
-                   await Database.Multiplexer.GetServer(endpoint).FlushDatabaseAsync(Database.Database);
+                    await Database.Multiplexer.GetServer(endpoint).FlushDatabaseAsync(Database.Database);
                 }
                 catch { }
             }
