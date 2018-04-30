@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Function", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Data", "BestProductsApp.Data\BestProductsApp.Data.csproj", "{BF9C8612-A961-4373-807A-D93A2912C1DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Services", "BestProductsApp.Services\BestProductsApp.Services.csproj", "{91191123-C7AB-428E-B3D5-C095DDF39CC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BF9C8612-A961-4373-807A-D93A2912C1DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF9C8612-A961-4373-807A-D93A2912C1DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF9C8612-A961-4373-807A-D93A2912C1DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
