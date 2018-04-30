@@ -8,7 +8,7 @@ namespace BestProductsApp
 {
     public static class DIExtensions
     {
-        public static void AddServices(IServiceCollection services,string connectionString)
+        public static void AddServices(this IServiceCollection services,string connectionString)
         {
             services.Configure<CacheServiceOptions>(option =>
             {

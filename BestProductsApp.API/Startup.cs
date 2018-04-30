@@ -25,7 +25,9 @@ namespace BestProductsApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataLayer(Configuration.GetConnectionString("ProductDb"));
+            services.AddServices(Configuration.GetConnectionString("Redis")); 
             services.AddMvc();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Trendyol Case Study API", Version = "v1" });

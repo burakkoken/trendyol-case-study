@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BestProductsApp.Data\BestProductsApp.Data.csproj" />
+    <ProjectReference Include="..\BestProductsApp.Services\BestProductsApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
