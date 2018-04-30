@@ -39,13 +39,13 @@ namespace BestProductsApp.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(x => x.WithOrigins("*").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Trendyol Case Study API");
             });
-
             app.UseMvc();
         }
     }

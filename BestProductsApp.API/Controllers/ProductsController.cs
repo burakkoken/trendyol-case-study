@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BestProductsApp.API.Controllers
 {
-    [Produces("application/json")]
     [Route("api/products")]
     public class ProductsController : Controller
     {
