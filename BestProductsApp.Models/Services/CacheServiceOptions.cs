@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BestProductsApp.Services.Models
+namespace BestProductsApp.Models.Services
 {
     public class CacheServiceOptions
     {

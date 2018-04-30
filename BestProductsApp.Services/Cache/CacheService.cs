@@ -1,4 +1,4 @@
-﻿using BestProductsApp.Services.Models;
+﻿using BestProductsApp.Models.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StackExchange.Redis;

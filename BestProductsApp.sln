@@ -9,11 +9,13 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.MVC", "BestProductsApp.MVC\BestProductsApp.MVC.csproj", "{9DA7D8B5-3938-4CA9-B69C-0C40F458D4DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Function", "BestProductsApp.Function\BestProductsApp.Function.csproj", "{4A112C1D-1771-43E1-9F2A-1FEAF020726D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Data", "BestProductsApp.Data\BestProductsApp.Data.csproj", "{BF9C8612-A961-4373-807A-D93A2912C1DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Services", "BestProductsApp.Services\BestProductsApp.Services.csproj", "{91191123-C7AB-428E-B3D5-C095DDF39CC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Function", "BestProductsApp.Function\BestProductsApp.Function.csproj", "{60A47940-6F87-4748-A260-793270E323D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestProductsApp.Models", "BestProductsApp.Models\BestProductsApp.Models.csproj", "{DCF6BEFF-5C94-434B-BA5A-468238A64589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +35,6 @@ Global
 		{9DA7D8B5-3938-4CA9-B69C-0C40F458D4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DA7D8B5-3938-4CA9-B69C-0C40F458D4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DA7D8B5-3938-4CA9-B69C-0C40F458D4DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A112C1D-1771-43E1-9F2A-1FEAF020726D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A112C1D-1771-43E1-9F2A-1FEAF020726D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A112C1D-1771-43E1-9F2A-1FEAF020726D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A112C1D-1771-43E1-9F2A-1FEAF020726D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF9C8612-A961-4373-807A-D93A2912C1DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF9C8612-A961-4373-807A-D93A2912C1DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF9C8612-A961-4373-807A-D93A2912C1DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +43,14 @@ Global
 		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91191123-C7AB-428E-B3D5-C095DDF39CC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60A47940-6F87-4748-A260-793270E323D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60A47940-6F87-4748-A260-793270E323D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60A47940-6F87-4748-A260-793270E323D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60A47940-6F87-4748-A260-793270E323D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCF6BEFF-5C94-434B-BA5A-468238A64589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCF6BEFF-5C94-434B-BA5A-468238A64589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCF6BEFF-5C94-434B-BA5A-468238A64589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCF6BEFF-5C94-434B-BA5A-468238A64589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
