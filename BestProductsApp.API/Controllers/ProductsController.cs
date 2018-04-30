@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BestProductsApp.API.Models.Products;
 using BestProductsApp.Data;
 using BestProductsApp.Data.Entities;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,28 @@ namespace BestProductsApp.API.Controllers
         public ProductsController(BestProductsDbContext db)
         {
             this._db = db;
+        }
+
+        [HttpPost]
+        public IActionResult LoadData([FromBody]FilterModel model)
+        {
+            try
+            {
+                var data = _db.Products.Skip(model.Start).Take(model.Length).ToList();
+                
+                return Json(new FilterModel()
+                {
+                    Draw = model.Draw,
+                    RecordFiltered = data.Count,
+                    RecordsTotal = data.Count,
+                    Data = data
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         [Route("fill")]

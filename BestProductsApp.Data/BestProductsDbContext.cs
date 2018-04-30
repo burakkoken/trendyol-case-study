@@ -7,6 +7,13 @@ namespace BestProductsApp.Data
 {
     public class BestProductsDbContext : DbContext
     {
+        public string ConnectionString { get; set; }
+
+        public BestProductsDbContext(string connectionString)
+        {
+            this.ConnectionString = connectionString;
+        }
+
         public BestProductsDbContext(DbContextOptions<BestProductsDbContext> options)
             : base(options)
         {
@@ -14,6 +21,14 @@ namespace BestProductsApp.Data
         }
 
         public virtual DbSet<Entities.Product> Products { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(this.ConnectionString, db => db.MigrationsAssembly("BestProductsApp.Data"));
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
