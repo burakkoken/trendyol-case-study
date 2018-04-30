@@ -1,4 +1,5 @@
 ﻿using BestProductsApp.Models.Services;
+using BestProductsApp.Services.Cache;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace BestProductsApp
             {
                 option.ConnectionString = connectionString;
             });
+            services.AddScoped<ICacheService, CacheService>();
         }
     }
 }
