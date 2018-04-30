@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BestProductsApp.API.Models.Products;
 using BestProductsApp.Data;
 using BestProductsApp.Data.Entities;
+using BestProductsApp.Services.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,19 +14,49 @@ namespace BestProductsApp.API.Controllers
     [Route("api/products")]
     public class ProductsController : Controller
     {
+        private readonly ICacheService _cacheService;
         private readonly BestProductsDbContext _db;
-        public ProductsController(BestProductsDbContext db)
+        public ProductsController(BestProductsDbContext db, ICacheService cacheService)
         {
             this._db = db;
+            this._cacheService = cacheService;
         }
 
+        [Route("list")]
         [HttpPost]
-        public IActionResult LoadData([FromBody]FilterModel model)
+        public IActionResult List([FromBody]FilterModel model)
+        {
+            try
+            {
+                var products = new List<Product>();
+                for(int i = model.Start; i < model.Start + model.Length; i++)
+                {
+                    products.Add(_cacheService.Get<Product>($"product-{i}"));
+                }
+                
+                return Json(new FilterModel()
+                {
+                    Draw = model.Draw,
+                    RecordFiltered = products.Count,
+                    RecordsTotal = _db.Products.Count(),
+                    Data = products
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        [Route("list-cache")]
+        [HttpPost]
+        public IActionResult ListInCache([FromBody]FilterModel model)
         {
             try
             {
                 var data = _db.Products.Skip(model.Start).Take(model.Length).ToList();
-                
+
                 return Json(new FilterModel()
                 {
                     Draw = model.Draw,
