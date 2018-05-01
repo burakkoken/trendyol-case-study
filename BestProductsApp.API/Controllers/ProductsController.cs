@@ -64,7 +64,7 @@ namespace BestProductsApp.API.Controllers
             });
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult Update([FromBody]Product product)
         {
             try
