@@ -36,10 +36,14 @@ namespace BestProductsApp.Function
                 .Build();
             services.Configure<IConfigurationRoot>(Configuration);
             services.AddScoped<Functions, Functions>();
-            
+            services.AddDataLayer(Configuration.GetConnectionString("ProductDb"));
+            services.AddServices(Configuration.GetConnectionString("Redis"),
+                                Configuration.GetValue<string>("Storage:ConnectionString"),
+                                Configuration.GetValue<string>("Storage:ContainerName"));
+
             // One more thing - tell azure where your azure connection strings are
-            Environment.SetEnvironmentVariable("AzureWebJobsDashboard", Configuration.GetValue<string>("AzureStorage:ConnectionString"));
-            Environment.SetEnvironmentVariable("AzureWebJobsStorage", Configuration.GetValue<string>("AzureStorage:ConnectionString"));
+            Environment.SetEnvironmentVariable("AzureWebJobsDashboard", Configuration.GetValue<string>("Storage:ConnectionString"));
+            Environment.SetEnvironmentVariable("AzureWebJobsStorage", Configuration.GetValue<string>("Storage:ConnectionString"));
         }
     }
 }

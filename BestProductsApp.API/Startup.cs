@@ -25,7 +25,9 @@ namespace BestProductsApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataLayer(Configuration.GetConnectionString("ProductDb"));
-            services.AddServices(Configuration.GetConnectionString("Redis")); 
+            services.AddServices(Configuration.GetConnectionString("Redis"), 
+                                Configuration.GetValue<string>("Storage:ConnectionString"), 
+                                Configuration.GetValue<string>("Storage:ContainerName"));
             services.AddMvc();
 
             services.AddSwaggerGen(c =>

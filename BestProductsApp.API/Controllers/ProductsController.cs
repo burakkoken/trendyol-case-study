@@ -26,51 +26,52 @@ namespace BestProductsApp.API.Controllers
         [HttpPost]
         public IActionResult List([FromBody]FilterModel model)
         {
-            try
-            {
-                var data = _db.Products.Skip(model.Start).Take(model.Length).ToList();
+            var data = _db.Products.Skip(model.Start).Take(model.Length).ToList();
 
-                return Json(new FilterModel()
-                {
-                    Draw = model.Draw,
-                    RecordFiltered = data.Count,
-                    RecordsTotal = data.Count,
-                    Data = data
-                });
-            }
-            catch (Exception)
+            return Json(new FilterModel()
             {
-                throw;
-            }
+                Draw = model.Draw,
+                RecordFiltered = data.Count,
+                RecordsTotal = data.Count,
+                Data = data
+            });
 
         }
-        
+
         [Route("list-cache")]
         [HttpPost]
         public IActionResult ListInCache([FromBody]FilterModel model)
         {
+            var products = new List<Product>();
+            var keys = _cacheService.GetAllKeys("product").OrderBy(x => x).Skip(model.Start).Take(model.Length).ToList();
+
+            foreach (var key in keys)
+            {
+                products.Add(_cacheService.Get<Product>(key));
+            }
+
+            return Json(new FilterModel()
+            {
+                Draw = model.Draw,
+                RecordFiltered = products.Count,
+                RecordsTotal = _db.Products.Count(),
+                Data = products
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Update([FromBody]Product product)
+        {
             try
             {
-                var products = new List<Product>();
-                var keys = _cacheService.GetAllKeys("product").OrderBy(x => x).Skip(model.Start).Take(model.Length).ToList();
-
-                foreach (var key in keys)
-                {
-                    products.Add(_cacheService.Get<Product>(key));
-                }
-
-                return Json(new FilterModel()
-                {
-                    Draw = model.Draw,
-                    RecordFiltered = products.Count,
-                    RecordsTotal = _db.Products.Count(),
-                    Data = products
-                });
+                _db.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return Ok();
             }
-            catch (Exception)
+            catch
             {
-                throw;
+                return BadRequest();
             }
+
         }
 
         [Route("fill")]
