@@ -9,6 +9,7 @@ using BestProductsApp.Services.Cache;
 using BestProductsApp.Services.Queue;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BestProductsApp.API.Controllers
 {
@@ -18,7 +19,7 @@ namespace BestProductsApp.API.Controllers
         private readonly ICacheService _cacheService;
         private readonly IQueueService _queueService;
         private readonly BestProductsDbContext _db;
-        public ProductsController(BestProductsDbContext db, 
+        public ProductsController(BestProductsDbContext db,
                                   ICacheService cacheService,
                                   IQueueService queueService)
         {
@@ -64,12 +65,16 @@ namespace BestProductsApp.API.Controllers
             });
         }
 
-        [HttpPut]
-        public IActionResult Update([FromBody]Product product)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody]int? id)
         {
+            if (!id.HasValue) return BadRequest();
+            var product = await _db.Products.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id.Value);
+            if (product == null) return NotFound();
             try
             {
-                _db.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                product.LastUpdatedTime = DateTime.Now;
+                _db.Entry(product).State = EntityState.Modified;
                 _queueService.AddQueue(BestProductsApp.Models.Services.QueueTypes.UpdateProduct, product.Id);
                 return Ok();
             }
@@ -104,6 +109,15 @@ namespace BestProductsApp.API.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+
+            _queueService.AddQueue(BestProductsApp.Models.Services.QueueTypes.DeleteProduct, id.Value);
+            return Ok(true);
         }
     }
 }

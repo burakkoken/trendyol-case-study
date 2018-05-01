@@ -15,6 +15,8 @@
 					<th>Name</th>
 					<th>Price</th>
 					<th>Last Updated Time</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 		</table>
@@ -36,16 +38,15 @@
 	<script>
         $(document).ready(function (){
             $("#example").DataTable({
-                "processing": true, // for show progress bar
-                "serverSide": true, // for process server side
-                "filter": true, // this is for disable filter (search box)
-                "orderMulti": false, // for disable multiple column at once
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "orderMulti": false,
                 "ajax": {
 					"url": "@baseApiUrl/api/products/list-cache",
 					"type": "POST",
 					"contentType": "application/json",
 					"data": function (d) {
-						console.log(JSON.stringify(d));
 						return JSON.stringify(d);
 					}
                 },
@@ -53,11 +54,64 @@
                     { "data": "id", "name": "Id", "autoWidth": true },
                     { "data": "name", "name": "Name", "autoWidth": true },
                     { "data": "price", "name": "Price", "autoWidth": true },
-					{ "data": "lastUpdatedTime", "name": "Last Updated Time", "autoWidth": true }
+					{ "data": "lastUpdatedTime", "name": "Last Updated Time", "autoWidth": true },
+					{
+						data: null, render: function (data, type, item) {
+							return "<a href='#' class='btn btn-info' onclick=\"Edit('" + item.id + "');\">Edit</a>";
+						}
+					},
+					{
+						data: null, render: function (data, type, item) {
+							return "<a href='#' class='btn btn-danger' onclick=\"Delete('" + item.id + "');\">Delete</a>";
+						}
+					}
                 ]
-            });
-        });
+			});
 
+
+		});
+
+		function Edit(id) {
+			$.ajax({
+				url: '@baseApiUrl' + '/api/products/' + id,
+				type: "PUT",
+				contentType: "application/json",
+				success: function (data) {
+					if (data) {
+						oTable = $('#example').DataTable();
+						oTable.draw();
+						alert("Updated");
+					}
+					else {
+						alert("Error");
+					}
+				}
+			});
+		}
+
+		function Delete(id) {
+			if (confirm("Are you sure?")) {
+
+				$.ajax({
+					url: '@baseApiUrl' + '/api/products/' + id,
+					type: "DELETE",
+					contentType: "application/json",
+					success: function (data) {
+						if (data) {
+							oTable = $('#example').DataTable();
+							oTable.draw();
+							alert("Deleted");
+						}
+						else {
+							alert("Error");
+						}
+					}
+				});
+			}
+			else {
+				return false;
+			}
+		}
 	</script>
 
 }

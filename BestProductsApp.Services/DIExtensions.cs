@@ -1,5 +1,6 @@
 ﻿using BestProductsApp.Models.Services;
 using BestProductsApp.Services.Cache;
+using BestProductsApp.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace BestProductsApp
                 options.ContainerName = containerName;
             });
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IQueueService, QueueService>();
         }
     }
 }

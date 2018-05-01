@@ -21,13 +21,13 @@ namespace BestProductsApp.Function
             this._db = db;
         }
 
-        public async Task LoadProducts([TimerTrigger("TimerInfo myTimer")]TimerInfo myTimer)
+        public async Task LoadProducts([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer)
         {
             int maxId = 0, lastCount = 0;
             var allProducts = new List<Product>();
             do
             {
-                var products = _db.Products.Skip(maxId).Take(1000);
+                var products = _db.Products.Skip(maxId).Take(1000).ToList();
                 allProducts.AddRange(products);
                 lastCount = products.Count();
                 maxId += lastCount;
@@ -35,12 +35,12 @@ namespace BestProductsApp.Function
             await cacheService.SetAsync("products", allProducts);
         }
 
-        public async Task LoadProductsWithKey([TimerTrigger("TimerInfo myTimer")]TimerInfo myTimer)
+        public async Task LoadProductsWithKey([TimerTrigger("0 */5 * * * *")]TimerInfo timerInfo)
         {
             int maxId = 0, lastCount = 0;
             do
             {
-                var products = _db.Products.Skip(maxId).Take(1000);
+                var products = _db.Products.Skip(maxId).Take(1000).ToList();
                 foreach (var product in products)
                 {
                     await cacheService.SetAsync($"product-{product.Id}", product);
@@ -60,5 +60,22 @@ namespace BestProductsApp.Function
             await cacheService.SetAsync(key, product);
         }
 
+        public async Task DeleteProduct([QueueTrigger("delete-product")]int productId)
+        {
+            string key = $"product-{productId}";
+            var product = await _db.Products.FindAsync(productId);
+            if (product == null) return;
+            _db.Products.Remove(product);
+            try
+            {
+                await _db.SaveChangesAsync();
+                await cacheService.RemoveAsync(key);
+            }
+            catch
+            {
+
+            }
+
+        }
     }
 }

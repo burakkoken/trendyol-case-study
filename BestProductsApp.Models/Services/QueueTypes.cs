@@ -7,7 +7,11 @@ namespace BestProductsApp.Models.Services
 {
     public enum QueueTypes
     {
+        [Description("start-app")]
+        StartApp,
         [Description("updated-product")]
-        UpdateProduct
+        UpdateProduct,
+        [Description("delete-product")]
+        DeleteProduct
     }
 }
