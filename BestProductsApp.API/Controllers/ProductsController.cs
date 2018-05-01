@@ -6,6 +6,7 @@ using BestProductsApp.API.Models.Products;
 using BestProductsApp.Data;
 using BestProductsApp.Data.Entities;
 using BestProductsApp.Services.Cache;
+using BestProductsApp.Services.Queue;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,15 @@ namespace BestProductsApp.API.Controllers
     public class ProductsController : Controller
     {
         private readonly ICacheService _cacheService;
+        private readonly IQueueService _queueService;
         private readonly BestProductsDbContext _db;
-        public ProductsController(BestProductsDbContext db, ICacheService cacheService)
+        public ProductsController(BestProductsDbContext db, 
+                                  ICacheService cacheService,
+                                  IQueueService queueService)
         {
             this._db = db;
             this._cacheService = cacheService;
+            this._queueService = queueService;
         }
 
         [Route("list")]
@@ -65,6 +70,7 @@ namespace BestProductsApp.API.Controllers
             try
             {
                 _db.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _queueService.AddQueue(BestProductsApp.Models.Services.QueueTypes.UpdateProduct, product.Id);
                 return Ok();
             }
             catch

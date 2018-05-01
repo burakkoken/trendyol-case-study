@@ -28,7 +28,7 @@ namespace BestProductsApp.Services.Queue
             Dispose();
         }
 
-        public bool AddQueue(QueueTypes type, string message)
+        public bool AddQueue<T>(QueueTypes type, T message)
         {
             try
             {
@@ -38,8 +38,8 @@ namespace BestProductsApp.Services.Queue
 
                 queueRef.CreateIfNotExistsAsync().Wait();
 
-                queueRef.AddMessageAsync(new Microsoft.WindowsAzure.Storage.Queue.CloudQueueMessage(message)).Wait();
-
+                queueRef.AddMessageAsync(new Microsoft.WindowsAzure.Storage.Queue.CloudQueueMessage(JsonConvert.SerializeObject(message))).Wait();
+                
                 GC.SuppressFinalize(queueRef);
                 GC.SuppressFinalize(queueClient);
                 GC.SuppressFinalize(storage);
@@ -52,6 +52,6 @@ namespace BestProductsApp.Services.Queue
         {
             GC.WaitForPendingFinalizers();
         }
-        
+
     }
 }

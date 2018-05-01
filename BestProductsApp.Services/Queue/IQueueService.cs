@@ -8,6 +8,6 @@ namespace BestProductsApp.Services.Queue
     public interface IQueueService
     {
         AzureStorageOptions StorageOptions { get; set; }
-        bool AddQueue(QueueTypes type, string message);
+        bool AddQueue<T>(QueueTypes type, T message);
     }
 }
